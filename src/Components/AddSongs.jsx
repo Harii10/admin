@@ -18,17 +18,16 @@ function AddSongs() {
   const handleSubmit = async (e) =>{
       e.preventDefault()
       const formData = new FormData()
-      formData.append('title', Title),
-      formData.append('artists', Artists)
-      formData.append('movie', Movie),
-      formData.append('track', Track)
-      formData.append('image', Picture)
+      formData.append('title', Title.trim())
+      formData.append('artists', Artists.trim())
+      formData.append('movie', Movie.trim())
+      if (Track) formData.append('track', Track)
+      if (Picture) formData.append('image', Picture)
 
       console.log("Sending FormData:");
     for (let pair of formData.entries()) {
-        console.log(pair[0] + ": " + pair[1]);
+        console.log(pair[0], pair[1])
     }
-
       try{
         const response = await axios.post('http://127.0.0.1:8000/submit/', formData, {
           headers:{
@@ -38,8 +37,8 @@ function AddSongs() {
         console.log("Sucess:", response.data);
         setMessage("Uploaded Succesfully!")
         
-      } catch(error){
-        console.log("Error Uploading: ", error)
+      }catch(error){
+        console.log("Error Uploading: ", error.response ? error.response.data : error.message)
         setMessage("Uploading Failed!")
       }
   }
@@ -115,6 +114,7 @@ function AddSongs() {
                     type="file"
                     name="trackfile"
                     onChange={(e) => setTrack(e.target.files[0])}
+                    accept='songs/'
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                     required
                   />
@@ -129,6 +129,7 @@ function AddSongs() {
                     type="file"
                     name="picturefile"
                     onChange={(e) => setPicture(e.target.files[0])}
+                    accept='images/'
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                     required
                   />
