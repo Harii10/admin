@@ -21,7 +21,7 @@ function L_form() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if(formData.username != validUsername && formData.password != validPassword){
+    if(formData.username != validUsername || formData.password != validPassword){
       alert('Invalid Credentials.')
     }
   };
