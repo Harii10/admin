@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import Layout from "../Layout";
 import { Link } from "react-router-dom";
+import Snackbar from "@mui/material/Snackbar";
 
 function L_form() {
   const [formData, setFormData] = useState({
@@ -9,8 +10,8 @@ function L_form() {
     password: "",
   });
   const [loggedIn, setLoggedIn] = useState(false);
+  const [error, setError] = useState(false);
 
-  // Hardcoded credentials
   const validUsername = "hari_7";
   const validPassword = "admin";
 
@@ -20,11 +21,8 @@ function L_form() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    {
-      formData.username === validUsername && formData.password === validPassword
-        ? setLoggedIn(true)
-        : alert("❌ Invalid Credentials! Try again.");
+    if(formData.username != validUsername && formData.password != validPassword){
+      alert('Invalid Credentials.')
     }
   };
   return (
@@ -46,6 +44,7 @@ function L_form() {
                 onChange={handleChange}
                 placeholder="Username"
                 className="w-full px-4 py-2 mt-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+                required
               />
               <input
                 type="password"
@@ -53,15 +52,26 @@ function L_form() {
                 onChange={handleChange}
                 placeholder="Password"
                 className="w-full px-4 py-2 mt-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+                required
               />
-              <Link to='/admin/dashboard'>
-              <button
-                type="submit"
-                className="w-full bg-blue-500 text-white px-4 py-2 mt-4 rounded-lg hover:bg-blue-600 transition"
-              >
-                Login
-              </button>
-              </Link>
+              {formData.username === validUsername &&
+              formData.password === validPassword ? (
+                <Link to='/admin/dashboard'>
+                  <button
+                    type="submit"
+                    className="w-full bg-blue-500 text-white px-4 py-2 mt-4 rounded-lg hover:bg-blue-600 transition"
+                  >
+                    Login
+                  </button>
+                </Link>
+              ) : (
+                <button
+                  type="submit"
+                  className="w-full bg-blue-500 text-white px-4 py-2 mt-4 rounded-lg hover:bg-blue-600 transition"
+                >
+                  Login
+                </button>
+              )}
             </form>
           </div>
         </div>
