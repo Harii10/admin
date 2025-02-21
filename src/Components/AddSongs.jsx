@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
-import CircularProgress from '@mui/material/CircularProgress';
+import CircularProgress from "@mui/material/CircularProgress";
 
 function AddSongs() {
   const [Title, setTitle] = useState("");
@@ -11,48 +11,54 @@ function AddSongs() {
   const [Track, setTrack] = useState(null);
   const [Picture, setPicture] = useState(null);
   const [message, setMessage] = useState("");
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
-  const handleFileChange = (e) => {
-    setSfile(e.target.files[0]);
+  const handleTrackChange = (e) => {
+    setTrack(e.target.files[0]); // Store the selected MP3 file
+  };
+
+  const handleImageChange = (e) => {
+    setPicture(e.target.files[0]); // Store the selected image file
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true)
-    setMessage('')
-    const formData = new FormData();
-    formData.append("title", Title.trim());
-    formData.append("artists", Artists.trim());
-    formData.append("movie", Movie.trim());
-    if (Track) formData.append("track", Track);
-    if (Picture) formData.append("image", Picture);
+    setLoading(true);
+    setMessage("");
 
-    console.log("Sending FormData:");
+    const formData = new FormData();
+    formData.append("songname", Title);
+    formData.append("artistname", Artists);
+    formData.append("moviename", Movie);
+    formData.append("trackfile", Track);
+    formData.append("picturefile", Picture)
+    console.log("Sending FormData");
     for (let pair of formData.entries()) {
       console.log(pair[0], pair[1]);
     }
-    
+
     try {
-      const response = await axios.post(
-        "http://127.0.0.1:8000/submit/",
-        formData,
-        {
+      const response = await axios.post("http://127.0.0.1:8000/submit/", formData, {
           headers: {
-            "Content-Type": "multipart/form-data",
+              "Content-Type": "multipart/form-data",
           },
-        }
-      );
-      console.log("Sucess:", response.data);
+      });
+      console.log("✅ Upload Successful:", response.data)
       setMessage("Uploaded Succesfully!");
+      setTitle('')
+      setMovie('')
+      setArtists('')
+      setTrack(null)
+      setPicture(null)
+      
     } catch (error) {
       console.log(
-        "Error Uploading: ",
+        "❌Error Uploading: ",
         error.response ? error.response.data : error.message
       );
       setMessage("Uploading Failed!");
-    } finally{
-      setLoading(false)
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -65,7 +71,9 @@ function AddSongs() {
           </div>
 
           <div className="p-6 space-y-6">
-            {loading ? (<CircularProgress disableShrink/>) : message ? (
+            {loading ? (
+              <CircularProgress disableShrink />
+            ) : message ? (
               message.includes("Uploading Failed!") ? (
                 <Stack sx={{ width: "100%" }} spacing={2}>
                   <Alert severity="error">Error Uploading.</Alert>
@@ -77,7 +85,7 @@ function AddSongs() {
               )
             ) : null}
 
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} encType="multipart/form-data">
               <div className="grid grid-cols-6 gap-6">
                 <div className="col-span-6 sm:col-span-3">
                   <label className="text-sm font-medium text-gray-900 block mb-2">
@@ -128,7 +136,7 @@ function AddSongs() {
                   <input
                     type="file"
                     name="trackfile"
-                    onChange={(e) => setTrack(e.target.files[0])}
+                    onChange={handleTrackChange}
                     accept="songs/"
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                     required
@@ -141,7 +149,7 @@ function AddSongs() {
                   <input
                     type="file"
                     name="picturefile"
-                    onChange={(e) => setPicture(e.target.files[0])}
+                    onChange={handleImageChange}
                     accept="images/"
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                     required
