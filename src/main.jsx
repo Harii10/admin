@@ -7,7 +7,8 @@ import L_form from "./Components/L_form.jsx";
 import Layout from "./Layout.jsx";
 import Dashboard from "./Components/Dashboard.jsx";
 import SongsList from "./Components/SongsList.jsx";
-import AddSongs from "./Components/AddSongs.jsx";
+import Sections from "./Components/Sections.jsx";
+import Artists from "./Components/ArtistsDetails.jsx";
 
 const router = createBrowserRouter([
   {
@@ -28,9 +29,9 @@ const router = createBrowserRouter([
       },
       {
         path: 'customize',
-        element: <AddSongs/>
+        element: <Sections/>
       },
-      {},
+      
     ],
   },
 ]);
