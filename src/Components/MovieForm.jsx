@@ -4,63 +4,62 @@ import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import CircularProgress from "@mui/material/CircularProgress";
 
-function ArtistsDetails() {
-  const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
-  const [name, setName] = useState("");
-  const [id, setId] = useState('')
-  const [genre, setGenre] = useState("");
+function MovieForm() {
+  const [mtitle, setMtitle] = useState("");
   const [image, setImage] = useState(null);
+  const [loading, setLoading] = useState(false)
+  const [message, setMessage] = useState('')
+  
 
   const handleImageChange = (e) => {
-    setImage(e.target.files[0]); // Store the selected image file
+    setImage(e.target.files[0]); 
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+
+  const handleSubmit = async (e) =>{
+    e.preventDefault();
     setLoading(true);
     setMessage("");
-    const formData = new FormData();
-    formData.append("artistname", name);
-    formData.append("genrename", genre);
-    formData.append("artistimage", image);
-    formData.append('artistid', id)
-    for (let pair of formData.entries()) {
-      console.log(pair[0], pair[1]);
-    }
 
-    try {
-      const response = await axios.post(
-        "http://127.0.0.1:8000/a-submit/",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      console.log("✅ Saved:", response.data);
-      setMessage("Saved.");
-      setName("");
-      setGenre("");
-      setId('')
-      setImage(null);
-    } catch (error) {
-      console.log(
-        "❌Error Uploading: ",
-        error.response ? error.response.data : error.message
-      );
-      setMessage("Uploading Failed!");
-    } finally {
-      setLoading(false);
-    }
-  };
+    const formData = new FormData()
+    formData.append('Moviename', mtitle)    
+    formData.append('Mimagefile', image)
+
+    for (let pair of formData.entries()) {
+        console.log(pair[0], pair[1]);
+      }
+  
+      try {
+        const response = await axios.post(
+          "http://127.0.0.1:8000/m-submit/",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        console.log("✅ Upload Successful:", response.data);
+        setMessage("Saved!");
+        setMtitle("");
+        setImage(null)
+      } catch (error) {
+        console.log(
+          "❌Error Uploading: ",
+          error.response ? error.response.data : error.message
+        );
+        setMessage("Uploading Failed!");
+      } finally {
+        setLoading(false);
+      }
+  }
+
   return (
     <>
       <div className=" h-screen lg:ml-80 lg:mt-4">
         <div className="bg-white rounded-lg shadow drop-shadow-2xl relative m-4">
           <div className="flex items-start justify-between p-5 border-b border-gray-200 rounded-t">
-            <h3 className="text-xl font-semibold">Artists Details</h3>
+            <h3 className="text-xl font-semibold">Add Movies</h3>
           </div>
 
           <div className="p-6 space-y-6">
@@ -73,7 +72,7 @@ function ArtistsDetails() {
                 </Stack>
               ) : (
                 <Stack sx={{ width: "100%" }} spacing={2}>
-                  <Alert severity="success">Saved.</Alert>
+                  <Alert severity="success">Uploaded Succesfully.</Alert>
                 </Stack>
               )
             ) : null}
@@ -82,54 +81,26 @@ function ArtistsDetails() {
               <div className="grid grid-cols-6 gap-6">
                 <div className="col-span-6 sm:col-span-3">
                   <label className="text-sm font-medium text-gray-900 block mb-2">
-                    Name
+                    Movie
                   </label>
                   <input
                     type="text"
+                    name="Moviename"
+                    onChange={(e) => setMtitle(e.target.value)}
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-                    name="artistname"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="Enter a Artists Name"
+                    placeholder="Enter a Movie Name"
                     required
                   />
                 </div>
-                <div className="col-span-6 sm:col-span-3">
-                  <label className="text-sm font-medium text-gray-900 block mb-2">
-                    ID
-                  </label>
-                  <input
-                    type="number"
-                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-                    name="artistid"
-                    value={id}
-                    onChange={(e) => setId(e.target.value)}
-                    placeholder="Enter a ID number"
-                    required
-                  />
-                </div>
-                <div className="col-span-6 sm:col-span-3">
-                  <label className="text-sm font-medium text-gray-900 block mb-2">
-                    Genre
-                  </label>
-                  <input
-                    type="text"
-                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-                    name="genrename"
-                    value={genre}
-                    onChange={(e) => setGenre(e.target.value)}
-                    placeholder="Enter a Genre Name"
-                    required
-                  />
-                </div>
+                
                 <div className="col-span-6 sm:col-span-3">
                   <label className="text-sm font-medium text-gray-900 block mb-2">
                     Photo File
                   </label>
                   <input
                     type="file"
+                    name="Mimagefile"
                     onChange={handleImageChange}
-                    name="artistimage"
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                     required
                   />
@@ -161,4 +132,4 @@ function ArtistsDetails() {
   );
 }
 
-export default ArtistsDetails;
+export default MovieForm;

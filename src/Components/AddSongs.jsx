@@ -1,20 +1,55 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import CircularProgress from "@mui/material/CircularProgress";
 import ArtistsDetails from "./ArtistsForm";
 
-
 function AddSongs() {
   const [Title, setTitle] = useState("");
-  const [Artists, setArtists] = useState("");
-  const [Movie, setMovie] = useState("");
+  const [Artists, setArtists] = useState([]);
+  const [selectedArtists, setSelectedArtist] = useState('')
+  const [Movie, setMovie] = useState([]);
+  const [selctedMovie, setSelectedMovie] = useState('')
   const [Track, setTrack] = useState(null);
   const [Picture, setPicture] = useState(null);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const selectArtist = () => {
+    axios
+      .get("http://127.0.0.1:8000/artistsinfos/")
+      .then((response) => {
+        setArtists(
+          Array.isArray(response.data.artists) ? response.data.artists : []
+        );
+      })
+      .catch((error) => {
+        console.log("Error fetching", error);
+        setMessage("❌Error Fetching.");
+      });
+  };
+
+  const handleSelectChange = (event) => {
+    setSelectedArtist(event.target.value);
+    setSelectedMovie(event.target.value) // Only update selectedArtist, NOT Artists
+  };
+  const getmovie = () =>{
+    axios.get('http://127.0.0.1:8000/movieinfo/')
+    .then((response)=>{
+      setMovie(Array.isArray(response.data.Movies) ? response.data.Movies : [])
+    })
+    .catch((error) => {
+      console.log("Error fetching", error);
+      setMessage("❌Error Fetching.");
+    });
+  }
   
+
+  useEffect(() => {
+    selectArtist();
+    getmovie()
+  }, []);
 
   const handleTrackChange = (e) => {
     setTrack(e.target.files[0]); // Store the selected MP3 file
@@ -23,6 +58,8 @@ function AddSongs() {
   const handleImageChange = (e) => {
     setPicture(e.target.files[0]); // Store the selected image file
   };
+
+ 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,27 +71,30 @@ function AddSongs() {
     formData.append("artistname", Artists);
     formData.append("moviename", Movie);
     formData.append("trackfile", Track);
-    formData.append("picturefile", Picture)
+    formData.append("picturefile", Picture);
     console.log("Sending FormData");
-    
+
     for (let pair of formData.entries()) {
       console.log(pair[0], pair[1]);
     }
 
     try {
-      const response = await axios.post("http://127.0.0.1:8000/submit/", formData, {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/submit/",
+        formData,
+        {
           headers: {
-              "Content-Type": "multipart/form-data",
+            "Content-Type": "multipart/form-data",
           },
-      });
-      console.log("✅ Upload Successful:", response.data)
+        }
+      );
+      console.log("✅ Upload Successful:", response.data);
       setMessage("Uploaded Succesfully!");
-      setTitle('')
-      setMovie('')
-      setArtists('')
-      setTrack(null)
-      setPicture(null)
-      
+      setTitle("");
+      setMovie("");
+      setArtists("");
+      setTrack(null);
+      setPicture(null);
     } catch (error) {
       console.log(
         "❌Error Uploading: ",
@@ -69,7 +109,6 @@ function AddSongs() {
   return (
     <>
       <div className=" h-screen lg:ml-80 lg:mt-4">
-      
         <div className="bg-white rounded-lg shadow drop-shadow-2xl relative m-4">
           <div className="flex items-start justify-between p-5 border-b border-gray-200 rounded-t">
             <h3 className="text-xl font-semibold">Add Songs</h3>
@@ -110,21 +149,28 @@ function AddSongs() {
                   <label className="text-sm font-medium text-gray-900 block mb-2">
                     Movie
                   </label>
-                  <input
-                    type="text"
+                  <select
                     name="moviename"
-                    onChange={(e) => setMovie(e.target.value)}
-                    value={Movie}
+                    onChange={handleSelectChange}
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-                    placeholder="Enter a Movie Name"
-                    required
-                  />
+                  >
+                    <option value="">Please select</option>
+                    {Movie.length > 0 ? (
+                      Movie.map((res) => (
+                        <option key={res.id} value={res.Movie_Name}>
+                          {res.Movie_Name}
+                        </option>
+                      ))
+                    ) : (
+                      <option disabled>Loading...</option>
+                    )}
+                  </select>
                 </div>
                 <div className="col-span-6 sm:col-span-3">
                   <label className="text-sm font-medium text-gray-900 block mb-2">
                     Artists
                   </label>
-                  <input
+                  {/* <input
                     type="text"
                     name="artistname"
                     onChange={(e) => setArtists(e.target.value)}
@@ -132,7 +178,23 @@ function AddSongs() {
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                     placeholder="Enter a Artists Name"
                     required
-                  />
+                  /> */}
+                  <select
+                    name="artistname"
+                    onChange={handleSelectChange}
+                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                  >
+                    <option value="">Please select</option>
+                    {Artists.length > 0 ? (
+                      Artists.map((res) => (
+                        <option key={res.id} value={res.Name}>
+                          {res.Name}
+                        </option>
+                      ))
+                    ) : (
+                      <option disabled>Loading...</option>
+                    )}
+                  </select>
                 </div>
                 <div className="col-span-6 sm:col-span-3">
                   <label className="text-sm font-medium text-gray-900 block mb-2">
@@ -182,9 +244,7 @@ function AddSongs() {
             </form>
           </div>
         </div>
-        <div>
-          {/* <ArtistsDetails/> */}
-        </div>
+        <div>{/* <ArtistsDetails/> */}</div>
       </div>
     </>
   );

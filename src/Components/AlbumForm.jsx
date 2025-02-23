@@ -1,13 +1,83 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import Alert from "@mui/material/Alert";
+import Stack from "@mui/material/Stack";
+import CircularProgress from "@mui/material/CircularProgress";
 
 function AlbumDetails() {
     const [loading, setLoading] = useState(false)
     const [message, setMessage] = useState("");
+    const [albName, setAlbName] = useState('')
+    const [movie, setMovie] = useState([])
+    const [image, setImage] = useState([])
+    const [artist, setArtist] = useState([])
+    const [selectedArtist, setSelectedArtist] = useState('')
+    const [track, setTrack] = useState(null) 
 
-const handleSubmit = (event) =>{
+
+    const selectArtist = () => {
+      axios
+        .get("http://127.0.0.1:8000/artistsinfos/")
+        .then((response) => {
+          setArtist(
+            Array.isArray(response.data.artists) ? response.data.artists : []
+          );
+        })
+        .catch((error) => {
+          console.log("Error fetching", error);
+          setMessage("❌Error Fetching.");
+        });
+    };
+    const handleSelectChange = (event) => {
+      setSelectedArtist(event.target.value); // Only update selectedArtist, NOT Artists
+    };
+    useEffect(() => {
+      selectArtist();
+    }, []);
+
+const handleSubmit = async(event) =>{
     event.preventDefault()
     setLoading(true);
     setMessage("");
+
+    const formData = new FormData();
+    formData.append("albumname", albName);
+    formData.append("artistname", artist);
+    formData.append("moviename", movie);
+    formData.append("trackfile", track);
+    formData.append("picturefile", image);
+    console.log("Sending FormData");
+
+    for (let pair of formData.entries()) {
+      console.log(pair[0], pair[1]);
+    }
+
+    try {
+      const response = await axios.post(
+        "",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log("✅ Upload Successful:", response.data);
+      setMessage("Uploaded Succesfully!");
+      setAlbName("");
+      setMovie("");
+      setSelectedArtist("");
+      setTrack(null);
+      setImage(null);
+    } catch (error) {
+      console.log(
+        "❌Error Uploading: ",
+        error.response ? error.response.data : error.message
+      );
+      setMessage("Uploading Failed!");
+    } finally {
+      setLoading(false);
+    }
 }
   return (
     <>
@@ -39,6 +109,7 @@ const handleSubmit = (event) =>{
                   </label>
                   <input
                     type="text"
+                    name='albumname'
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                     placeholder="Enter a Song Name"
                     required
@@ -48,21 +119,45 @@ const handleSubmit = (event) =>{
                   <label className="text-sm font-medium text-gray-900 block mb-2">
                     Movie
                   </label>
-                  <input
-                    type="text"
+                  <select
+                    name="amoviename"
+                    onChange={(e) => setMovie(e.target.value)}
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-                    placeholder="Enter a Movie Name"
-                    required
-                  />
+                  >
+                    <option value="">Please select</option>
+                    <option value={movie}>John Mayer</option>
+                  </select>
                 </div>
                 <div className="col-span-6 sm:col-span-3">
                   <label className="text-sm font-medium text-gray-900 block mb-2">
                     Artists
                   </label>
-                  <input
-                    type="text"
+                  <select
+                    name="albartistname"
+                    onChange={handleSelectChange}
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-                    placeholder="Enter a Artists Name"
+                  >
+                    <option value="">Please select</option>
+                    {artist.length > 0 ? (
+                      artist.map((res) => (
+                        <option key={res.id} value={res.Name}>
+                          {res.Name}
+                        </option>
+                      ))
+                    ) : (
+                      <option disabled>Loading...</option>
+                    )}
+                  </select>
+                </div>
+                
+                <div className="col-span-6 sm:col-span-3">
+                  <label className="text-sm font-medium text-gray-900 block mb-2">
+                    Photo File
+                  </label>
+                  <input
+                    type="file"
+                    name='albpicfile'
+                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                     required
                   />
                 </div>
@@ -72,16 +167,7 @@ const handleSubmit = (event) =>{
                   </label>
                   <input
                     type="file"
-                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-                    required
-                  />
-                </div>
-                <div className="col-span-6 sm:col-span-3">
-                  <label className="text-sm font-medium text-gray-900 block mb-2">
-                    Photo File
-                  </label>
-                  <input
-                    type="file"
+                    name='albtrackfile'
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                     required
                   />

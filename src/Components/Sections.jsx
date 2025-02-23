@@ -5,6 +5,7 @@ import Tab from "@mui/material/Tab";
 import AddSongs from "./AddSongs";
 import AlbumDetails from "./AlbumForm";
 import ArtistsDetails from "./ArtistsForm";
+import MovieForm from "./MovieForm";
 
 function Sections() {
   const [value, setValue] = useState(0);
@@ -20,11 +21,13 @@ function Sections() {
             <Tab label="Songs" />
             <Tab label="Albums" />
             <Tab label="Artists" />
+            <Tab label='Movie'/>
           </Tabs>
           <Box sx={{mt:2}}>
             {value === 0 && <AddSongs/>}
             {value === 1 && <AlbumDetails/>}
             {value === 2 && <ArtistsDetails/>}
+            {value === 3 && <MovieForm/>}
           </Box>
         </Box>
       </div>

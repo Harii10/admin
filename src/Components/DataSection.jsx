@@ -5,6 +5,7 @@ import Tab from "@mui/material/Tab";
 import SongList from './SongList'
 import ArtistsList from './ArtistsList';
 import AlbumList from "./AlbumList";
+import MovieList from "./MovieList";
 
 function DataSection() {
     const [value, setValue] = useState(0);
@@ -20,11 +21,13 @@ function DataSection() {
             <Tab label="Songs" />
             <Tab label="Albums" />
             <Tab label="Artists" />
+            <Tab label="Movie"/>
           </Tabs>
           <Box sx={{mt:2}}>
             {value === 0 && <SongList/>}
             {value === 1 && <AlbumList/>}
             {value === 2 && <ArtistsList/>}
+            {value === 3 && <MovieList/>}
           </Box>
         </Box>
         </div>
