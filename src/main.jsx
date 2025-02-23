@@ -6,9 +6,9 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import L_form from "./Components/L_form.jsx";
 import Layout from "./Layout.jsx";
 import Dashboard from "./Components/Dashboard.jsx";
-import SongsList from "./Components/SongsList.jsx";
 import Sections from "./Components/Sections.jsx";
-import Artists from "./Components/ArtistsDetails.jsx";
+import Artists from "./Components/ArtistsForm.jsx";
+import DataSection from "./Components/DataSection.jsx";
 
 const router = createBrowserRouter([
   {
@@ -24,8 +24,8 @@ const router = createBrowserRouter([
         element: <Dashboard />,
       },
       {
-        path: 'songs',
-        element: <SongsList />,
+        path: 'datas',
+        element: <DataSection />,
       },
       {
         path: 'customize',

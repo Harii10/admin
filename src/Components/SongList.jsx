@@ -3,7 +3,7 @@ import Skeleton from "@mui/material/Skeleton";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
-function SongsList() {
+function DataList() {
   const [songInfo, setSongInfo] = useState([]);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -73,4 +73,4 @@ function SongsList() {
   );
 }
 
-export default SongsList;
+export default DataList;

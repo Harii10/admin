@@ -5,19 +5,59 @@ import Stack from "@mui/material/Stack";
 import CircularProgress from "@mui/material/CircularProgress";
 
 function ArtistsDetails() {
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  
-  const handleSubmit = (event) =>{
-      event.preventDefault()
-      setLoading(true);
-      setMessage("");
-  
-  }
+  const [name, setName] = useState("");
+  const [id, setId] = useState('')
+  const [genre, setGenre] = useState("");
+  const [image, setImage] = useState(null);
+
+  const handleImageChange = (e) => {
+    setImage(e.target.files[0]); // Store the selected image file
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+    setMessage("");
+    const formData = new FormData();
+    formData.append("artistname", name);
+    formData.append("genrename", genre);
+    formData.append("artistimage", image);
+    formData.append('artistid', id)
+    for (let pair of formData.entries()) {
+      console.log(pair[0], pair[1]);
+    }
+
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/a-submit/",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log("✅ Saved:", response.data);
+      setMessage("Saved.");
+      setName("");
+      setGenre("");
+      setImage(null);
+    } catch (error) {
+      console.log(
+        "❌Error Uploading: ",
+        error.response ? error.response.data : error.message
+      );
+      setMessage("Uploading Failed!");
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <>
       <div className=" h-screen lg:ml-80 lg:mt-4">
-      <div className="bg-white rounded-lg shadow drop-shadow-2xl relative m-4">
+        <div className="bg-white rounded-lg shadow drop-shadow-2xl relative m-4">
           <div className="flex items-start justify-between p-5 border-b border-gray-200 rounded-t">
             <h3 className="text-xl font-semibold">Artists Details</h3>
           </div>
@@ -32,7 +72,7 @@ function ArtistsDetails() {
                 </Stack>
               ) : (
                 <Stack sx={{ width: "100%" }} spacing={2}>
-                  <Alert severity="success">Uploaded Succesfully.</Alert>
+                  <Alert severity="success">Saved.</Alert>
                 </Stack>
               )
             ) : null}
@@ -46,7 +86,24 @@ function ArtistsDetails() {
                   <input
                     type="text"
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-                    placeholder="Enter a Song Name"
+                    name="artistname"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Enter a Artists Name"
+                    required
+                  />
+                </div>
+                <div className="col-span-6 sm:col-span-3">
+                  <label className="text-sm font-medium text-gray-900 block mb-2">
+                    ID
+                  </label>
+                  <input
+                    type="number"
+                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                    name="artistid"
+                    value={id}
+                    onChange={(e) => setId(e.target.value)}
+                    placeholder="Enter a ID number"
                     required
                   />
                 </div>
@@ -57,7 +114,10 @@ function ArtistsDetails() {
                   <input
                     type="text"
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-                    placeholder="Enter a Movie Name"
+                    name="genrename"
+                    value={genre}
+                    onChange={(e) => setGenre(e.target.value)}
+                    placeholder="Enter a Genre Name"
                     required
                   />
                 </div>
@@ -67,7 +127,8 @@ function ArtistsDetails() {
                   </label>
                   <input
                     type="file"
-                    accept="images/"
+                    onChange={handleImageChange}
+                    name="artistimage"
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                     required
                   />

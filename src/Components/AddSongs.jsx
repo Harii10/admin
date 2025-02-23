@@ -3,7 +3,7 @@ import axios from "axios";
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import CircularProgress from "@mui/material/CircularProgress";
-import ArtistsDetails from "./ArtistsDetails";
+import ArtistsDetails from "./ArtistsForm";
 
 
 function AddSongs() {
