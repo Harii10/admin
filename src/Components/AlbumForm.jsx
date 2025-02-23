@@ -25,7 +25,6 @@ function AlbumDetails() {
         })
         .catch((error) => {
           console.log("Error fetching", error);
-          setMessage("❌Error Fetching.");
         });
     };
     const handleSelectChange = (event) => {

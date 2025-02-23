@@ -26,7 +26,6 @@ function AddSongs() {
       })
       .catch((error) => {
         console.log("Error fetching", error);
-        setMessage("❌Error Fetching.");
       });
   };
 
@@ -41,7 +40,6 @@ function AddSongs() {
     })
     .catch((error) => {
       console.log("Error fetching", error);
-      setMessage("❌Error Fetching.");
     });
   }
   
@@ -158,7 +156,7 @@ function AddSongs() {
                     {Movie.length > 0 ? (
                       Movie.map((res) => (
                         <option key={res.id} value={res.Movie_Name}>
-                          {res.Movie_Name}
+                          {res.Name}
                         </option>
                       ))
                     ) : (
