@@ -18,7 +18,7 @@ function MovieList() {
   }, []);
   return (
     <>
-      <div className=" h-screen lg:ml-80 lg:mt-4">
+      <div className=" grid grid-cols-4 gap-6 h-screen lg:ml-80 lg:mt-4">
         {movie &&
           movie.map((res) => (
             <div>
@@ -30,7 +30,6 @@ function MovieList() {
 
               <div className="mt-4 sm:flex sm:gap-4">
                 <strong className="font-medium">{res.Movie_Name}</strong>
-
                 <span className="hidden sm:block sm:h-px sm:w-8 sm:bg-yellow-500"></span>
 
               </div>

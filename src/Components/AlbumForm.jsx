@@ -12,8 +12,19 @@ function AlbumDetails() {
     const [image, setImage] = useState([])
     const [artist, setArtist] = useState([])
     const [selectedArtist, setSelectedArtist] = useState('')
+    const [selectedMovie, setSelectedMovie] = useState('')
     const [track, setTrack] = useState(null) 
 
+
+    const selectmovie = () =>{
+      axios.get('http://127.0.0.1:8000/movieinfo/')
+      .then((response)=>{
+        setMovie(Array.isArray(response.data.Movies) ? response.data.Movies : [])
+      })
+      .catch((error) => {
+        console.log("Error fetching", error);
+      });
+    }
 
     const selectArtist = () => {
       axios
@@ -28,10 +39,12 @@ function AlbumDetails() {
         });
     };
     const handleSelectChange = (event) => {
-      setSelectedArtist(event.target.value); // Only update selectedArtist, NOT Artists
+      setSelectedArtist(event.target.value); 
+      setSelectedMovie(e.target.value)// Only update selectedArtist, NOT Artists
     };
     useEffect(() => {
       selectArtist();
+      selectmovie()
     }, []);
 
 const handleSubmit = async(event) =>{
@@ -124,7 +137,15 @@ const handleSubmit = async(event) =>{
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                   >
                     <option value="">Please select</option>
-                    <option value={movie}>John Mayer</option>
+                    {movie && movie.length > 0 ? (
+                      movie.map((res) => (
+                        <option key={res.id} value={res.Movie_Name}>
+                          {res.Movie_Name}
+                        </option>
+                      ))
+                    ) : (
+                      <option disabled>Loading...</option>
+                    )}
                   </select>
                 </div>
                 <div className="col-span-6 sm:col-span-3">
