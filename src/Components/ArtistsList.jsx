@@ -58,6 +58,28 @@ function ArtistsList() {
     }
   };
 
+  const deleteArtist = async (artistId) => {
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/delete-artist/${artistId}/`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+      });
+  
+      const result = await response.json();
+      console.log(result);
+  
+      if (response.ok) {
+        // Remove the deleted artist from the state
+        setArtistsInfo(artistsInfo.filter((artist) => artist.id !== artistId));
+      } else {
+        console.error("Error deleting artist:", result.error);
+      }
+    } catch (error) {
+      console.error("Error deleting artist:", error);
+    }
+  };
+  
+
   // Fetch Artists
   useEffect(() => {
     axios
@@ -72,7 +94,7 @@ function ArtistsList() {
 
   return (
     <>
-      <div className="flex h-screen bg-gray-100 lg:ml-80 lg:mt-4">
+      <div className="flex h-screen bg-gray-100">
         <div className="overflow-x-auto w-full">
         <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
             <thead className="ltr:text-left rtl:text-right">
@@ -88,13 +110,14 @@ function ArtistsList() {
                   ID
                 </th>
                 <th className="px-4 py-2 font-extrabold whitespace-nowrap text-gray-900">
-                  Edit
+                  Options
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200">
+            <tbody>
+
               {artistsInfo && artistsInfo.map((artist) => (
-                <tr>
+                <tr class="overflow-y-scroll">
                   <td className="px-4 py-2 whitespace-nowrap">
                     <img
                       src={artist.Image}
@@ -111,11 +134,11 @@ function ArtistsList() {
                   <td className="px-4 py-2 whitespace-nowrap text-gray-700">
                     {artist.ID_number}
                   </td>
-                  <td className="px-4 py-2 whitespace-nowrap text-gray-700">
+                  <td className="flex gap-7 px-4 py-2 whitespace-nowrap text-gray-700">
                   <button className="bg-green-500 text-white p-3 rounded" onClick={() => openPopup(artist)}>
                       Edit
                     </button>
-
+                    <button className="rounded-sm bg-red-500 text-white p-3" onClick={() => deleteArtist(artist.id)}>Delete</button>
                   </td>
                 </tr>
               ))}

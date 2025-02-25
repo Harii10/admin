@@ -18,7 +18,7 @@ function MovieList() {
   }, []);
   return (
     <>
-      <div className=" grid grid-cols-4 gap-6 h-screen lg:ml-80 lg:mt-4">
+      <div className=" grid grid-cols-4 gap-6 h-screen">
         {movie &&
           movie.map((res) => (
             <div>

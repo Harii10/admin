@@ -29,10 +29,7 @@ function AddSongs() {
       });
   };
 
-  const handleSelectChange = (event) => {
-    setSelectedArtist(event.target.value);
-    setSelectedMovie(event.target.value) // Only update selectedArtist, NOT Artists
-  };
+  
   const selectmovie = () =>{
     axios.get('http://127.0.0.1:8000/movieinfo/')
     .then((response)=>{
@@ -43,7 +40,10 @@ function AddSongs() {
     });
   }
   
-
+  const handleSelectChange = (event) => {
+    setSelectedArtist(event.target.value);
+    setSelectedMovie(event.target.value) 
+  };
   useEffect(() => {
     selectArtist();
     selectmovie()
@@ -106,7 +106,7 @@ function AddSongs() {
 
   return (
     <>
-      <div className=" h-screen lg:ml-80 lg:mt-4">
+      <div className="h-screen">
         <div className="bg-white rounded-lg shadow drop-shadow-2xl relative m-4">
           <div className="flex items-start justify-between p-5 border-b border-gray-200 rounded-t">
             <h3 className="text-xl font-semibold">Add Songs</h3>

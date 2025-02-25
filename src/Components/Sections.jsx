@@ -15,14 +15,16 @@ function Sections() {
   };
   return (
     <>
-      <div>
+      <div className="lg:ml-80">
         <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
+          <div>
           <Tabs value={value} onChange={handleChange} centered>
             <Tab label="Songs" />
             <Tab label="Albums" />
             <Tab label="Artists" />
             <Tab label='Movie'/>
           </Tabs>
+          </div>
           <Box sx={{mt:2}}>
             {value === 0 && <AddSongs/>}
             {value === 1 && <AlbumDetails/>}

@@ -57,7 +57,7 @@ function ArtistsDetails() {
   };
   return (
     <>
-      <div className=" h-screen lg:ml-80 lg:mt-4">
+      <div className=" h-screen">
         <div className="bg-white rounded-lg shadow drop-shadow-2xl relative m-4">
           <div className="flex items-start justify-between p-5 border-b border-gray-200 rounded-t">
             <h3 className="text-xl font-semibold">Artists Details</h3>

@@ -15,7 +15,7 @@ function DataSection() {
       };
   return (
     <>
-        <div>
+        <div className="lg:ml-80">
         <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
           <Tabs value={value} onChange={handleChange} centered>
             <Tab label="Songs" />

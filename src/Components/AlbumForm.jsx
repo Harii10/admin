@@ -7,13 +7,14 @@ import CircularProgress from "@mui/material/CircularProgress";
 function AlbumDetails() {
     const [loading, setLoading] = useState(false)
     const [message, setMessage] = useState("");
-    const [albName, setAlbName] = useState('')
+    const [albName, setAlbName] = useState("")
     const [movie, setMovie] = useState([])
-    const [image, setImage] = useState([])
+    const [image, setImage] = useState(null)
     const [artist, setArtist] = useState([])
     const [selectedArtist, setSelectedArtist] = useState('')
     const [selectedMovie, setSelectedMovie] = useState('')
     const [track, setTrack] = useState(null) 
+    
 
 
     const selectmovie = () =>{
@@ -38,10 +39,19 @@ function AlbumDetails() {
           console.log("Error fetching", error);
         });
     };
-    const handleSelectChange = (event) => {
-      setSelectedArtist(event.target.value); 
-      setSelectedMovie(e.target.value)// Only update selectedArtist, NOT Artists
-    };
+    const handleMovieSelect = (event) =>{
+      setSelectedMovie(event.target.value)
+    }
+    const handleArtistSelect = (event) =>{
+      setSelectedArtist(event.target.value)
+    }
+    const handleImageChange = (event) => {
+      setImage(event.target.files[0]);
+  };
+  
+  const handleTrackChange = (event) => {
+      setTrack(event.target.files[0]);
+  };
     useEffect(() => {
       selectArtist();
       selectmovie()
@@ -54,10 +64,10 @@ const handleSubmit = async(event) =>{
 
     const formData = new FormData();
     formData.append("albumname", albName);
-    formData.append("artistname", artist);
-    formData.append("moviename", movie);
-    formData.append("trackfile", track);
-    formData.append("picturefile", image);
+    formData.append("albartistname", selectedArtist);
+    formData.append("amoviename", selectedMovie);
+    formData.append("albtrackfile", track);
+    formData.append("albpicfile", image);
     console.log("Sending FormData");
 
     for (let pair of formData.entries()) {
@@ -66,7 +76,7 @@ const handleSubmit = async(event) =>{
 
     try {
       const response = await axios.post(
-        "",
+        "http://127.0.0.1:8000/alb-submit/",
         formData,
         {
           headers: {
@@ -77,7 +87,7 @@ const handleSubmit = async(event) =>{
       console.log("✅ Upload Successful:", response.data);
       setMessage("Uploaded Succesfully!");
       setAlbName("");
-      setMovie("");
+      setSelectedMovie("");
       setSelectedArtist("");
       setTrack(null);
       setImage(null);
@@ -91,9 +101,10 @@ const handleSubmit = async(event) =>{
       setLoading(false);
     }
 }
+
   return (
     <>
-        <div className=" h-screen lg:ml-80 lg:mt-4">
+        <div className=" h-screen">
         <div className="bg-white rounded-lg shadow drop-shadow-2xl relative m-4">
           <div className="flex items-start justify-between p-5 border-b border-gray-200 rounded-t">
             <h3 className="text-xl font-semibold">Album Detials</h3>
@@ -122,6 +133,7 @@ const handleSubmit = async(event) =>{
                   <input
                     type="text"
                     name='albumname'
+                    onChange={(e)=> setAlbName(e.target.value)}
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                     placeholder="Enter a Song Name"
                     required
@@ -133,11 +145,11 @@ const handleSubmit = async(event) =>{
                   </label>
                   <select
                     name="amoviename"
-                    onChange={(e) => setMovie(e.target.value)}
-                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                    onChange={handleMovieSelect}
+                    className="overflow-y-scroll shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                   >
-                    <option value="">Please select</option>
-                    {movie && movie.length > 0 ? (
+                    <option value="">Select Movie</option>
+                    {movie.length > 0 ? (
                       movie.map((res) => (
                         <option key={res.id} value={res.Movie_Name}>
                           {res.Movie_Name}
@@ -154,10 +166,10 @@ const handleSubmit = async(event) =>{
                   </label>
                   <select
                     name="albartistname"
-                    onChange={handleSelectChange}
-                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                    onChange={handleArtistSelect}
+                    className="overflow-y-scroll shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                   >
-                    <option value="">Please select</option>
+                    <option value="">Select Artist</option>
                     {artist.length > 0 ? (
                       artist.map((res) => (
                         <option key={res.id} value={res.Name}>
@@ -174,12 +186,15 @@ const handleSubmit = async(event) =>{
                   <label className="text-sm font-medium text-gray-900 block mb-2">
                     Photo File
                   </label>
-                  <input
+                  
+                    <input
                     type="file"
                     name='albpicfile'
+                    onChange={handleImageChange}
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                     required
                   />
+                  
                 </div>
                 <div className="col-span-6 sm:col-span-3">
                   <label className="text-sm font-medium text-gray-900 block mb-2">
@@ -188,6 +203,7 @@ const handleSubmit = async(event) =>{
                   <input
                     type="file"
                     name='albtrackfile'
+                    onChange={handleTrackChange}
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                     required
                   />

@@ -21,7 +21,7 @@ function DataList() {
   }, []);
   return (
     <>
-      <div className="flex h-screen bg-gray-100 lg:ml-80 lg:mt-4">
+      <div className="flex h-screen bg-gray-100">
         <div className="overflow-x-auto w-full">
           <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
             <thead className="ltr:text-left rtl:text-right">
