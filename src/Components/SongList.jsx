@@ -19,6 +19,27 @@ function DataList() {
         setMessage("❌Error Fetching.");
       });
   }, []);
+
+  const deleteSong = async (songId) => {
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/delete-song/${songId}/`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+      });
+  
+      const result = await response.json();
+      console.log(result);
+  
+      if (response.ok) {
+        // Remove the deleted artist from the state
+        setSongInfo(songInfo.filter((song) => song.id !== songId));
+      } else {
+        console.error("Error deleting artist:", result.error);
+      }
+    } catch (error) {
+      console.error("Error deleting artist:", error);
+    }
+  };
   return (
     <>
       <div className="flex h-screen bg-gray-100">
@@ -62,6 +83,9 @@ function DataList() {
                   </td>
                   <td className="px-4 py-2 whitespace-nowrap text-gray-700">
                     {infos.Track}
+                  </td>
+                  <td className="flex gap-7 px-4 py-2 whitespace-nowrap text-gray-700">
+                  <button className="rounded-sm bg-red-500 text-white p-3" onClick={() => deleteSong(infos.id)}>Delete</button>
                   </td>
                 </tr>
               ))}

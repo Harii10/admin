@@ -19,15 +19,15 @@ function DataSection() {
         <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
           <Tabs value={value} onChange={handleChange} centered>
             <Tab label="Songs" />
-            <Tab label="Albums" />
+            {/* <Tab label="Albums" /> */}
             <Tab label="Artists" />
             <Tab label="Movie"/>
           </Tabs>
           <Box sx={{mt:2}}>
             {value === 0 && <SongList/>}
-            {value === 1 && <AlbumList/>}
-            {value === 2 && <ArtistsList/>}
-            {value === 3 && <MovieList/>}
+            {/* {value === 1 && <AlbumList/>} */}
+            {value === 1 && <ArtistsList/>}
+            {value === 2 && <MovieList/>}
           </Box>
         </Box>
         </div>

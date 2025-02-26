@@ -20,16 +20,16 @@ function Sections() {
           <div>
           <Tabs value={value} onChange={handleChange} centered>
             <Tab label="Songs" />
-            <Tab label="Albums" />
+            {/* <Tab label="Albums" /> */}
             <Tab label="Artists" />
             <Tab label='Movie'/>
           </Tabs>
           </div>
           <Box sx={{mt:2}}>
             {value === 0 && <AddSongs/>}
-            {value === 1 && <AlbumDetails/>}
-            {value === 2 && <ArtistsDetails/>}
-            {value === 3 && <MovieForm/>}
+            {/* {value === 1 && <AlbumDetails/>} */}
+            {value === 1 && <ArtistsDetails/>}
+            {value === 2 && <MovieForm/>}
           </Box>
         </Box>
       </div>

@@ -40,10 +40,13 @@ function AddSongs() {
     });
   }
   
-  const handleSelectChange = (event) => {
-    setSelectedArtist(event.target.value);
+  const handleMovieSelect = (event) => { 
     setSelectedMovie(event.target.value) 
   };
+
+  const handleArtistSelect = (event) =>{
+    setSelectedArtist(event.target.value);
+  }
   useEffect(() => {
     selectArtist();
     selectmovie()
@@ -66,8 +69,8 @@ function AddSongs() {
 
     const formData = new FormData();
     formData.append("songname", Title);
-    formData.append("artistname", Artists);
-    formData.append("moviename", Movie);
+    formData.append("artistname", selectedArtists);
+    formData.append("moviename", selctedMovie);
     formData.append("trackfile", Track);
     formData.append("picturefile", Picture);
     console.log("Sending FormData");
@@ -149,7 +152,7 @@ function AddSongs() {
                   </label>
                   <select
                     name="moviename"
-                    onChange={handleSelectChange}
+                    onChange={handleMovieSelect}
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                   >
                     <option value="">Please select</option>
@@ -179,7 +182,7 @@ function AddSongs() {
                   /> */}
                   <select
                     name="artistname"
-                    onChange={handleSelectChange}
+                    onChange={handleArtistSelect}
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                   >
                     <option value="">Please select</option>
