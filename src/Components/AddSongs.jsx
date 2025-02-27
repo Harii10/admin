@@ -18,7 +18,7 @@ function AddSongs() {
 
   const selectArtist = () => {
     axios
-      .get("http://127.0.0.1:8000/artistsinfos/")
+      .get("https://hariichandru.pythonanywhere.com/artistsinfos/")
       .then((response) => {
         setArtists(
           Array.isArray(response.data.artists) ? response.data.artists : []
@@ -31,7 +31,7 @@ function AddSongs() {
 
   
   const selectmovie = () =>{
-    axios.get('http://127.0.0.1:8000/movieinfo/')
+    axios.get('https://hariichandru.pythonanywhere.com/movieinfo/')
     .then((response)=>{
       setMovie(Array.isArray(response.data.Movies) ? response.data.Movies : [])
     })
@@ -81,7 +81,7 @@ function AddSongs() {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/submit/",
+        "https://hariichandru.pythonanywhere.com/submit/",
         formData,
         {
           headers: {

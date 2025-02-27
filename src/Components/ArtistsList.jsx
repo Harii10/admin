@@ -38,7 +38,7 @@ function ArtistsList() {
   const updateArtist = async () => {
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/update-artists/${selectedArtist.id}/`,
+        `https://hariichandru.pythonanywhere.com/${selectedArtist.id}/`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -60,7 +60,7 @@ function ArtistsList() {
 
   const deleteArtist = async (artistId) => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/delete-artist/${artistId}/`, {
+      const response = await fetch(`https://hariichandru.pythonanywhere.com/${artistId}/`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
       });
@@ -83,7 +83,7 @@ function ArtistsList() {
   // Fetch Artists
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:8000/artistsinfos/")
+      .get("https://hariichandru.pythonanywhere.com/artistsinfos/")
       .then((response) => {
         setArtistsInfo(response.data.artists);
       })

@@ -11,7 +11,7 @@ function Dashboard() {
 
 
   const totalSongs = () =>{
-    axios.get('http://127.0.0.1:8000/songinfos/')
+    axios.get('https://hariichandru.pythonanywhere.com/songinfos/')
     .then((response) => {
       setSongCount(response.data.total_songs)
     })
@@ -21,7 +21,7 @@ function Dashboard() {
   }
 
   const totalArtists = () =>{
-    axios.get('http://127.0.0.1:8000/artistsinfos/')
+    axios.get('https://hariichandru.pythonanywhere.com/artistsinfos/')
     .then((response) => {
       setArtistCount(response.data.total_artists)
     })
@@ -31,7 +31,7 @@ function Dashboard() {
   }
 
   const totalMovies = () =>{
-    axios.get('http://127.0.0.1:8000/movieinfo/')
+    axios.get('https://hariichandru.pythonanywhere.com/movieinfo/')
     .then((response) => {
       setMovieCount(response.data.total_Movies)
     })

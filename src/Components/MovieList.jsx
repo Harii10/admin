@@ -7,7 +7,7 @@ function MovieList() {
 
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:8000/movieinfo/")
+      .get("https://hariichandru.pythonanywhere.com/movieinfo/")
       .then((response) => {
         setMovie(response.data.Movies);
       })
@@ -19,7 +19,7 @@ function MovieList() {
 
   const deleteMovie = async (movieId) => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/delete-movie/${movieId}/`, {
+      const response = await fetch(`https://hariichandru.pythonanywhere.com/${movieId}/`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
       });

@@ -10,7 +10,7 @@ function DataList() {
 
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:8000/songinfos/")
+      .get("https://hariichandru.pythonanywhere.com/songinfos/")
       .then((response) => {
         setSongInfo(response.data.songs);
       })
@@ -22,7 +22,7 @@ function DataList() {
 
   const deleteSong = async (songId) => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/delete-song/${songId}/`, {
+      const response = await fetch(`https://hariichandru.pythonanywhere.com/${songId}/`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
       });
