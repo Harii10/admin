@@ -40,7 +40,7 @@ function MovieList() {
 
   return (
     <>
-      <div className=" grid grid-cols-4 gap-6 h-screen">
+      <div className=" grid grid-cols-2 gap-3 lg:grid lg:grid-cols-4 lg:gap-6 h-screen">
         {movie &&
           movie.map((res) => (
             <div>
@@ -50,9 +50,8 @@ function MovieList() {
                 className="h-52 w-52 rounded-bl-3xl rounded-tr-3xl sm:h-64 lg:h-72"
               />
 
-              <div className="mt-4 sm:flex sm:gap-4">
+              <div className="flex flex-col justify-center gap-1 mt-2 lg:flex lg:gap-4">
                 <strong className="font-medium">{res.Movie_Name}</strong>
-                <span className="hidden sm:block sm:h-px sm:w-8 sm:bg-yellow-500"></span>
                 <button className="rounded-sm bg-red-500 text-white p-3" onClick={() => deleteMovie(res.id)}>Delete</button>
               </div>
             </div>

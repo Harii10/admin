@@ -68,7 +68,7 @@ function DataList() {
                   <td className="px-4 py-2 whitespace-nowrap">
                     <img
                       src={infos.Picture}
-                      className="size-20 rounded-lg object-cover"
+                      className="size-24 rounded-lg object-cover"
                       alt="image"
                     />
                   </td>
