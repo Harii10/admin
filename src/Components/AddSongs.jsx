@@ -205,22 +205,14 @@ function AddSongs() {
                   <label className="text-sm font-medium text-gray-900 block mb-2">
                     Photo File
                   </label>
-                  <select
+                  <input
+                    type="file"
                     name="picturefile"
                     onChange={handleImageChange}
+                    accept="images/"
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-                  >
-                    <option value="">Select Image</option>
-                    {Movie && Movie.length > 0 ? (
-                      Movie.map((res) => (
-                        <option key={res.id} value={res.Name}>
-                          {res.Image}
-                        </option>
-                      ))
-                    ) : (
-                      <option disabled>Loading...</option>
-                    )}
-                  </select>
+                    required
+                  />
                 </div>
                 <div className="col-span-full">
                   <label className="text-sm font-medium text-gray-900 block mb-2">
