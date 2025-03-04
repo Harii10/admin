@@ -32,7 +32,6 @@ function DataList() {
       console.log(result);
   
       if (response.ok) {
-        // Remove the deleted artist from the state
         setSongInfo(songInfo.filter((song) => song.id !== songId));
       } else {
         console.error("Error deleting artist:", result.error);
