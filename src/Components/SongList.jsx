@@ -22,10 +22,11 @@ function DataList() {
 
   const deleteSong = async (songId) => {
     try {
-      const response = await fetch(`https://hariichandru.pythonanywhere.com/${songId}/`, {
+      const response = await fetch(`https://hariichandru.pythonanywhere.com/delete-song/${songId}/`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
       });
+   
   
       const result = await response.json();
       console.log(result);
@@ -82,7 +83,7 @@ function DataList() {
                     {infos.Movie}
                   </td>
                   <td className="px-4 py-2 whitespace-nowrap text-gray-700">
-                    {infos.Track}
+                    Audios
                   </td>
                   <td className="flex gap-7 px-4 py-2 whitespace-nowrap text-gray-700">
                   <button className="rounded-sm bg-red-500 text-white p-3" onClick={() => deleteSong(infos.id)}>Delete</button>

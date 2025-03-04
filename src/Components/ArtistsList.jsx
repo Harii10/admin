@@ -38,7 +38,7 @@ function ArtistsList() {
   const updateArtist = async () => {
     try {
       const response = await fetch(
-        `https://hariichandru.pythonanywhere.com/${selectedArtist.id}/`,
+        `https://hariichandru.pythonanywhere.com/delete-artist/${selectedArtist.id}/`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -60,7 +60,7 @@ function ArtistsList() {
 
   const deleteArtist = async (artistId) => {
     try {
-      const response = await fetch(`https://hariichandru.pythonanywhere.com/${artistId}/`, {
+      const response = await fetch(`https://hariichandru.pythonanywhere.com/delete-artist/${artistId}/`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
       });

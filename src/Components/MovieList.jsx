@@ -19,7 +19,7 @@ function MovieList() {
 
   const deleteMovie = async (movieId) => {
     try {
-      const response = await fetch(`https://hariichandru.pythonanywhere.com/${movieId}/`, {
+      const response = await fetch(`https://hariichandru.pythonanywhere.com/delete-movie/${movieId}/`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
       });

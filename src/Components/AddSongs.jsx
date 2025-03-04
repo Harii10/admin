@@ -171,15 +171,6 @@ function AddSongs() {
                   <label className="text-sm font-medium text-gray-900 block mb-2">
                     Artists
                   </label>
-                  {/* <input
-                    type="text"
-                    name="artistname"
-                    onChange={(e) => setArtists(e.target.value)}
-                    value={Artists}
-                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-                    placeholder="Enter a Artists Name"
-                    required
-                  /> */}
                   <select
                     name="artistname"
                     onChange={handleArtistSelect}
@@ -245,7 +236,6 @@ function AddSongs() {
             </form>
           </div>
         </div>
-        <div>{/* <ArtistsDetails/> */}</div>
       </div>
     </>
   );

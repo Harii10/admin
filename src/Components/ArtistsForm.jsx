@@ -13,7 +13,7 @@ function ArtistsDetails() {
   const [image, setImage] = useState(null);
 
   const handleImageChange = (e) => {
-    setImage(e.target.files[0]); // Store the selected image file
+    setImage(e.target.files[0]);
   };
 
   const handleSubmit = async (event) => {
