@@ -9,6 +9,7 @@ function MovieForm() {
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
+  const [mId, setMId] = useState('')
   
 
   const handleImageChange = (e) => {
@@ -24,6 +25,7 @@ function MovieForm() {
     const formData = new FormData()
     formData.append('Moviename', mtitle)    
     formData.append('Mimagefile', image)
+    formData.append('Movieid', mId)
 
     for (let pair of formData.entries()) {
         console.log(pair[0], pair[1]);
@@ -42,6 +44,7 @@ function MovieForm() {
         console.log("✅ Upload Successful:", response.data);
         setMessage("Saved!");
         setMtitle("");
+        setMId('')
         setImage(null)
       } catch (error) {
         console.log(
@@ -92,7 +95,19 @@ function MovieForm() {
                     required
                   />
                 </div>
-                
+                <div className="col-span-6 sm:col-span-3">
+                  <label className="text-sm font-medium text-gray-900 block mb-2">
+                    ID
+                  </label>
+                  <input
+                    name="Movieid"
+                    onChange={(e) => setMId(e.target.value)}
+                    value={mId}
+                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                    placeholder="Enter a ID Number"
+                    required
+                  />
+                </div>
                 <div className="col-span-6 sm:col-span-3">
                   <label className="text-sm font-medium text-gray-900 block mb-2">
                     Photo File

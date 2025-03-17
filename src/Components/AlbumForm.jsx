@@ -5,60 +5,61 @@ import Stack from "@mui/material/Stack";
 import CircularProgress from "@mui/material/CircularProgress";
 
 function AlbumDetails() {
-    const [loading, setLoading] = useState(false)
-    const [message, setMessage] = useState("");
-    const [albName, setAlbName] = useState("")
-    const [movie, setMovie] = useState([])
-    const [image, setImage] = useState(null)
-    const [artist, setArtist] = useState([])
-    const [selectedArtist, setSelectedArtist] = useState('')
-    const [selectedMovie, setSelectedMovie] = useState('')
-    const [track, setTrack] = useState(null) 
-    
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+  const [albName, setAlbName] = useState("");
+  const [movie, setMovie] = useState([]);
+  const [image, setImage] = useState(null);
+  const [artist, setArtist] = useState([]);
+  const [selectedArtist, setSelectedArtist] = useState("");
+  const [selectedMovie, setSelectedMovie] = useState("");
+  const [track, setTrack] = useState(null);
 
-
-    const selectmovie = () =>{
-      axios.get('http://127.0.0.1:8000/movieinfo/')
-      .then((response)=>{
-        setMovie(Array.isArray(response.data.Movies) ? response.data.Movies : [])
+  const selectmovie = () => {
+    axios
+      .get("http://127.0.0.1:8000/movieinfo/")
+      .then((response) => {
+        setMovie(
+          Array.isArray(response.data.Movies) ? response.data.Movies : []
+        );
       })
       .catch((error) => {
         console.log("Error fetching", error);
       });
-    }
-
-    const selectArtist = () => {
-      axios
-        .get("http://127.0.0.1:8000/artistsinfos/")
-        .then((response) => {
-          setArtist(
-            Array.isArray(response.data.artists) ? response.data.artists : []
-          );
-        })
-        .catch((error) => {
-          console.log("Error fetching", error);
-        });
-    };
-    const handleMovieSelect = (event) =>{
-      setSelectedMovie(event.target.value)
-    }
-    const handleArtistSelect = (event) =>{
-      setSelectedArtist(event.target.value)
-    }
-    const handleImageChange = (event) => {
-      setImage(event.target.files[0]);
   };
-  
+
+  const selectArtist = () => {
+    axios
+      .get("http://127.0.0.1:8000/artistsinfos/")
+      .then((response) => {
+        setArtist(
+          Array.isArray(response.data.artists) ? response.data.artists : []
+        );
+      })
+      .catch((error) => {
+        console.log("Error fetching", error);
+      });
+  };
+  const handleMovieSelect = (event) => {
+    setSelectedMovie(event.target.value);
+  };
+  const handleArtistSelect = (event) => {
+    setSelectedArtist(event.target.value);
+  };
+  const handleImageChange = (event) => {
+    setImage(event.target.files[0]);
+  };
+
   const handleTrackChange = (event) => {
-      setTrack(event.target.files[0]);
+    setTrack(event.target.files[0]);
   };
-    useEffect(() => {
-      selectArtist();
-      selectmovie()
-    }, []);
+  useEffect(() => {
+    selectArtist();
+    selectmovie();
+  }, []);
 
-const handleSubmit = async(event) =>{
-    event.preventDefault()
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     setLoading(true);
     setMessage("");
 
@@ -68,6 +69,8 @@ const handleSubmit = async(event) =>{
     formData.append("amoviename", selectedMovie);
     formData.append("albtrackfile", track);
     formData.append("albpicfile", image);
+    track.forEach(id => formData.append("albtrackfile", id));
+
     console.log("Sending FormData");
 
     for (let pair of formData.entries()) {
@@ -100,11 +103,11 @@ const handleSubmit = async(event) =>{
     } finally {
       setLoading(false);
     }
-}
+  };
 
   return (
     <>
-        <div className=" h-screen">
+      <div className=" h-screen">
         <div className="bg-white rounded-lg shadow drop-shadow-2xl relative m-4">
           <div className="flex items-start justify-between p-5 border-b border-gray-200 rounded-t">
             <h3 className="text-xl font-semibold">Album Detials</h3>
@@ -132,8 +135,8 @@ const handleSubmit = async(event) =>{
                   </label>
                   <input
                     type="text"
-                    name='albumname'
-                    onChange={(e)=> setAlbName(e.target.value)}
+                    name="albumname"
+                    onChange={(e) => setAlbName(e.target.value)}
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                     placeholder="Enter a Song Name"
                     required
@@ -181,32 +184,45 @@ const handleSubmit = async(event) =>{
                     )}
                   </select>
                 </div>
-                
+
                 <div className="col-span-6 sm:col-span-3">
                   <label className="text-sm font-medium text-gray-900 block mb-2">
                     Photo File
                   </label>
-                  
-                    <input
+
+                  <input
                     type="file"
-                    name='albpicfile'
+                    name="albpicfile"
                     onChange={handleImageChange}
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                     required
                   />
-                  
                 </div>
                 <div className="col-span-6 sm:col-span-3">
                   <label className="text-sm font-medium text-gray-900 block mb-2">
                     Song File
                   </label>
-                  <input
-                    type="file"
-                    name='albtrackfile'
-                    onChange={handleTrackChange}
-                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-                    required
-                  />
+                  <select
+                    name="albtrackfile"
+                    onChange={(e) =>
+                      setTrack(
+                        [...e.target.selectedOptions].map((o) => o.value)
+                      )
+                    }
+                    multiple
+                    className="overflow-y-scroll shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                  >
+                    <option value="">Select Tracks</option>
+                    {trackOptions.length > 0 ? (
+                      trackOptions.map((res) => (
+                        <option key={res.id} value={res.id}>
+                          {res.title}
+                        </option>
+                      ))
+                    ) : (
+                      <option disabled>Loading...</option>
+                    )}
+                  </select>
                 </div>
                 <div className="col-span-full">
                   <label className="text-sm font-medium text-gray-900 block mb-2">
@@ -230,9 +246,9 @@ const handleSubmit = async(event) =>{
             </form>
           </div>
         </div>
-        </div>
+      </div>
     </>
-  )
+  );
 }
 
-export default AlbumDetails
+export default AlbumDetails;

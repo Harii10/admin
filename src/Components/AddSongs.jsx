@@ -15,6 +15,7 @@ function AddSongs() {
   const [Picture, setPicture] = useState(null);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [songId, setSongId] = useState('')
 
   const selectArtist = () => {
     axios
@@ -73,6 +74,7 @@ function AddSongs() {
     formData.append("moviename", selctedMovie);
     formData.append("trackfile", Track);
     formData.append("picturefile", Picture);
+    formData.append('songid', songId)
     console.log("Sending FormData");
 
     for (let pair of formData.entries()) {
@@ -141,6 +143,20 @@ function AddSongs() {
                     name="songname"
                     onChange={(e) => setTitle(e.target.value)}
                     value={Title}
+                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
+                    placeholder="Enter a Song Name"
+                    required
+                  />
+                </div>
+                <div className="col-span-6 sm:col-span-3">
+                  <label className="text-sm font-medium text-gray-900 block mb-2">
+                    ID
+                  </label>
+                  <input
+                    type=""
+                    name="songid"
+                    onChange={(e) => setSongId(e.target.value)}
+                    value={songId}
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                     placeholder="Enter a Song Name"
                     required
