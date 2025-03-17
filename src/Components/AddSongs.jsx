@@ -54,11 +54,11 @@ function AddSongs() {
   }, []);
 
   const handleTrackChange = (e) => {
-    setTrack(e.target.files[0]); // Store the selected MP3 file
+    setTrack(e.target.files[0]); 
   };
 
   const handleImageChange = (e) => {
-    setPicture(e.target.files[0]); // Store the selected image file
+    setPicture(e.target.files[0]); 
   };
 
  
