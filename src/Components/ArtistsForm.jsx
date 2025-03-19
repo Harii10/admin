@@ -106,6 +106,7 @@ function ArtistsDetails() {
                     onChange={(e) => setId(e.target.value)}
                     placeholder="Enter a ID number"
                     required
+                    maxLength={6}
                   />
                 </div>
                 <div className="col-span-6 sm:col-span-3">
