@@ -154,13 +154,13 @@ function AddSongs() {
                   </label>
                   <input
                     type="number"
-                    maxLength={7}
                     name="songid"
                     onChange={(e) => setSongId(e.target.value)}
                     value={songId}
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
                     placeholder="Enter a Song Name"
                     required
+                    maxLength={7}
                   />
                 </div>
                 <div className="col-span-6 sm:col-span-3">
@@ -227,8 +227,7 @@ function AddSongs() {
                     name="picturefile"
                     onChange={handleImageChange}
                     accept="images/"
-                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"
-                    
+                    className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"  
                   />
                 </div>
                 <div className="col-span-full">
