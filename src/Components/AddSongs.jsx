@@ -57,9 +57,9 @@ function AddSongs() {
     setTrack(e.target.files[0]); 
   };
 
-  const handleImageChange = (e) => {
-    setPicture(e.target.files[0]); 
-  };
+  // const handleImageChange = (e) => {
+  //   setPicture(e.target.files[0]); 
+  // };
 
  
 
@@ -73,7 +73,7 @@ function AddSongs() {
     formData.append("artistname", selectedArtists);
     formData.append("moviename", selctedMovie);
     formData.append("trackfile", Track);
-    formData.append("picturefile", Picture);
+    // formData.append("picturefile", Picture);
     formData.append('songid', songId)
     console.log("Sending FormData");
 
@@ -97,7 +97,7 @@ function AddSongs() {
       setMovie("");
       setArtists("");
       setTrack(null);
-      setPicture(null);
+      // setPicture(null);
     } catch (error) {
       console.log(
         "❌Error Uploading: ",
@@ -218,7 +218,7 @@ function AddSongs() {
                     required
                   />
                 </div>
-                <div className="col-span-6 sm:col-span-3">
+                {/* <div className="col-span-6 sm:col-span-3">
                   <label className="text-sm font-medium text-gray-900 block mb-2">
                     Photo File
                   </label>
@@ -229,7 +229,7 @@ function AddSongs() {
                     accept="images/"
                     className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"  
                   />
-                </div>
+                </div> */}
                 <div className="col-span-full">
                   <label className="text-sm font-medium text-gray-900 block mb-2">
                     Description
